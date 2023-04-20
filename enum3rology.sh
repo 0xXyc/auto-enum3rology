@@ -34,7 +34,7 @@ echo -e "${Blue}
 "
 
 echo -e "${Green}                       Created by: Jacob Swinsinski\n"
-echo -e "${Blue}Current Version: 0.1\n"
+echo -e "${Blue}Current Version: 0.2\n"
 sleep 2
 
 # Placing logic here for command line arg for obtaining IP address to be enumerated through the duration of the script
