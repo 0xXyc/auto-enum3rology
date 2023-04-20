@@ -90,19 +90,6 @@ whatweb $target_url -a 3 -v
 echo -e "\n${Blue}Starting vulnerability scan with Nikto. This may take awhile...${Color_Off}"
 nikto -h $ip_address -verbose -output nikto-output.txt
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Additional Tips Section -- Still need to implement
 echo -e "\n${Green}Things that I can't do that you should:"
 echo -e "View the source code of the web site of HTML and blank PHP pages for secrets"
