@@ -33,7 +33,7 @@ echo -e "${Blue}
                                                                               ░ ░     
 "
 
-echo -e "${Green}                       Created by: Jacob Swinsinski\n"
+echo -e "${Green}                       Created by: https://github.com/jswinss \n"
 echo -e "${Blue}Current Version: 0.2\n"
 sleep 2
 
