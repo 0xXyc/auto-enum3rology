@@ -30,7 +30,7 @@ echo -e "${Blue}
  ░ ░  ░ ░░   ░ ▒░░▒░ ░ ░░  ░      ░░ ░  ░ ░▒ ░ ▒░ ░ ▒ ▒░░ ░ ▒  ░ ░ ▒ ▒░  ░   ░▓██ ░▒░ 
    ░     ░   ░ ░ ░░░ ░ ░░      ░     ░    ░░   ░░ ░ ░ ▒   ░ ░  ░ ░ ░ ▒ ░ ░   ░▒ ▒ ░░  
    ░  ░        ░   ░           ░     ░  ░  ░        ░ ░     ░  ░   ░ ░       ░░ ░     
-                                                                              ░ ░                                                                                               
+                                                                              ░ ░     
 "
 
 echo -e "${Green}                       Created by: Jacob Swinsinski\n"
@@ -52,6 +52,53 @@ ip_address=$1
 target_url=$2
 hostname=$3
 
+echo -e "${Blue}Performing dependency checks:${Color_Off}"
+sleep 1
+echo -e "${Green}Checking if nmap is installed..."
+if ! which nmap > /dev/null; then
+   echo -e "Command not found! Install? (y/n) \c"
+   read
+   if [ "$REPLY" = "y" ]; 
+   then
+      echo -e ''
+      sudo apt-get install nmap
+   fi
+else
+    echo -e "Already installed!"
+    echo -e ''
+    sleep 1
+fi
+
+echo -e "${Green}Checking if dirsearch is installed..."
+if ! which dirsearch > /dev/null; then
+   echo -e "Command not found! Install? (y/n) \c"
+   read
+   if [ "$REPLY" = "y" ]; 
+   then
+      echo -e ''
+      sudo apt-get install dirsearch
+   fi
+else
+    echo -e "Already installed!"
+    echo -e ''
+    sleep 1
+fi
+
+echo -e "${Green}Checking if feroxbuster is installed..."
+if ! which feroxbuster > /dev/null; then
+   echo -e "Command not found! Install? (y/n) \c"
+   read
+   if [ "$REPLY" = "y" ]; 
+   then
+      echo -e ''
+      sudo apt-get install feroxbuster
+   fi
+else
+    echo -e "Already installed!"
+    echo -e ''
+    sleep 1
+fi
+
 # Print the IP address to the console
 echo -e "${Green}Targets:\n         IP: $ip_address"
 echo -e "${Green}         Target URL: $target_url"
@@ -63,7 +110,7 @@ echo -e "${Color_Off}"
 rm -rf Enum3rology_Output
 mkdir Enum3rology_Output
 cd Enum3rology_Output
-echo -e "\n${Blue}Beginning Nmap scans..."
+echo -e "${Blue}Beginning Nmap scans..."
 echo -e "Now performing a TCP scan of all 65,535 ports on the target (-sV, -sC. -v):${Color_Off}"
 nmap -sV -sC -v $ip_address -oN TCP-Scan
 echo -e "Now performing a UDP scan of the top 1,000 ports on the target (-sU -sV -sC -v):${Color_Off}"
