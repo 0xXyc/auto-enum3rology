@@ -44,7 +44,7 @@ sleep 1
 # Check that an IP address was provided as an argument
 if [ $# -ne 3 ]; then
     echo "Usage: $0 <ip_address> <target_url> <hostname>"
-    exit 1
+    exit 1s
 fi
 
 # Store the IP address in a variable
@@ -135,7 +135,7 @@ whatweb $target_url -a 3 -v
 
 # Performs a vulnerability scan with Nikto
 echo -e "\n${Blue}Starting vulnerability scan with Nikto. This may take awhile...${Color_Off}"
-nikto -h $ip_address -verbose -output nikto-output.txt
+nikto -h $ip_address -o nikto-output.txt
 
 # Additional Tips Section -- Still need to implement
 echo -e "\n${Green}Things that I can't do that you should:"
