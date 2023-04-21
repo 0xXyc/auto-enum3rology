@@ -6,6 +6,7 @@ Enumerology -- Enumeration + Methodology
 
 ## Usage
 `sudo ./enum3rology.sh <target_ip_address> <target_url> <hostname>`
+
 Be sure to add the target's hostname to /etc/hosts prior to running. If it is a HTB machine, I will usually just do name_of_box.htb.
 
 ## Preview
