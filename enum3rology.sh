@@ -33,8 +33,8 @@ echo -e "${Blue}
                                                                               ░ ░     
 "
 
-echo -e "${Green}                       Created by: https://github.com/jswinss \n"
-echo -e "${Blue}Current Version: 0.2\n"
+echo -e "${Green}                       Created by: https://github.com/jswinss\n"
+echo -e "${Blue}Current Version: 0.3\n"
 sleep 2
 
 # Placing logic here for command line arg for obtaining IP address to be enumerated through the duration of the script
@@ -43,8 +43,8 @@ sleep 1
 
 # Check that an IP address was provided as an argument
 if [ $# -ne 3 ]; then
-    echo "Usage: $0 <ip_address> <target_url> <hostname>"
-    exit 1s
+    echo "Usage: $0 <target_ip_address> <target_url> <hostname>"
+    exit 1
 fi
 
 # Store the IP address in a variable
@@ -113,8 +113,19 @@ cd Enum3rology_Output
 echo -e "${Blue}Beginning Nmap scans..."
 echo -e "Now performing a TCP scan of all 65,535 ports on the target (-sV, -sC. -v):${Color_Off}"
 nmap -sV -sC -v $ip_address -oN TCP-Scan
-echo -e "Now performing a UDP scan of the top 1,000 ports on the target (-sU -sV -sC -v):${Color_Off}"
-nmap -sU -sV -sC -v $ip_address -oN UDP-Scan
+echo -e "${Blue}\nDo you want to conduct a UDP scan on your target?"
+echo -e "(y/n)"
+read
+if [ "$REPLY" = "y" ];
+    then
+      echo ''
+      echo -e "${Blue}Now performing a UDP scan of the top 1,000 ports on the target (-sU -sV -sC -v) "
+      echo ''
+      nmap -sU -sV -sC -v $ip_address -oN UDP-Scan
+
+else
+    echo -e "Skipping UDP scan, let's continue enumerating!"
+fi
 
 echo -e "\n${Blue}The All scan output will be saved to TCP-scan"
 echo -e "The UDP scan output will be saved to UDP-scan${Color_Off}"
@@ -135,8 +146,9 @@ whatweb $target_url -a 3 -v
 
 # Performs a vulnerability scan with Nikto
 echo -e "\n${Blue}Starting vulnerability scan with Nikto. This may take awhile...${Color_Off}"
-nikto -h $ip_address -o nikto-output.txt
+nikto -h $ip_address -output nikto-output.txt
 
+# -------------------------------------------------------------------------------------------------------------------------------
 # Additional Tips Section -- Still need to implement
 echo -e "\n${Green}Things that I can't do that you should:"
 echo -e "View the source code of the web site of HTML and blank PHP pages for secrets"
@@ -146,3 +158,4 @@ echo -e "ffuf -u $target_url -H "Host: FUZZ.$hostname" -w /usr/share/seclists/Di
 
 # To-Do List:
 # WPScan option
+#--------------------------------------------------------------------------------------------------------------------------------
