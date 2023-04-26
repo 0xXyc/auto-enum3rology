@@ -128,12 +128,12 @@ if cat 'TCP-Scan' | grep -q "53/tcp open"; then
 else
     echo -e "\n${Red}Port 53 is closed, skipping zone transfer attack."
 fi
-echo -e "${Blue}\nDo you want to conduct a UDP scan on your target? Note: This can take a long time."
+echo -e "${Blue}\nDo you want to conduct a UDP scan on your target? Note: This can take a long time.${Color_Off}"
 echo -e "(y/n)"
 read
 if [ "$REPLY" = "y" ];
     then
-      echo -e "\n${Blue}Now performing a UDP scan of the top 1,000 ports on the target (-sU -sV -sC -v):\n"
+      echo -e "\nNow performing a UDP scan of the top 1,000 ports on the target (-sU -sV -sC -v):\n"
       nmap -sU -sV -sC -v $ip_address -oN UDP-Scan
 else
     echo -e "Skipping UDP scan, let's continue enumerating!"
