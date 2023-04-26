@@ -1,12 +1,14 @@
 # auto-enum3rology
 Enumeration automation script best suited for web-based engagements.
+
 Enumeration + Methodology = Enumerology
+
 Be sure to add your hostname to your /etc/hosts file prior to using. If I am attacking an HTB box, I simply put box_name.htb.
 # Usage
 `sudo ./enum3rology.sh <ip_address_here> <target_url_here> <target_hostname_here>`
 # What does it look like?
 Yes, it was my first big automation script, you know I had to make it look cool.
-![image](https://user-images.githubusercontent.com/42036798/233736984-d0c03f11-b1c7-4bab-a9de-bd6f791a715a.png)
+![image](https://user-images.githubusercontent.com/42036798/234483449-da105bbc-42b0-4bd7-a07d-26bd2cc836a5.png)
 # Capabilities
 - Dependency checking
 - Nmap (UDP and TCP scans)
@@ -15,7 +17,12 @@ Yes, it was my first big automation script, you know I had to make it look cool.
 - Fingerprinting with `whatweb`
 - Vulnerability scanning with `Nikto`
 - Places all tool output neatly in a directory named "Enum3rology_Output"
+- DNS (Port 53) Zone Transfer Attack
+- Add target IP and hostname to /etc/hosts (this is optional)
 # To-do
-- If port 53 is open, conduct DNS reconaissance (i.e. zone transfer attack `dig axfr test.htb @IP_of_target` to broaden attack surface and append new findings to /etc/hosts
+- Deciding to add an option to start burpsuite after the script has finished
+- Should we add an option to start a python web server `python3 -m http.server`? `wwwtree`?
+- Is Nikto Useless? I added an option because of this thought
+- Should we implement functions?
 - Add additional tips -- analyze source code, load burp and manipulate web app, etc.
 - Deciding whether `enum4linux` is necessary or not
