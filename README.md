@@ -6,7 +6,8 @@ Be sure to add your hostname to your /etc/hosts file prior to using. If I am att
 `sudo ./enum3rology.sh <ip_address_here> <target_url_here> <target_hostname_here>`
 # What does it look like?
 Yes, it was my first big automation script, you know I had to make it look cool.
-![image](https://user-images.githubusercontent.com/42036798/234483284-a6281abe-c1f9-4769-a702-4c62bbf1a6d3.png)# Capabilities
+![image](https://user-images.githubusercontent.com/42036798/234483449-da105bbc-42b0-4bd7-a07d-26bd2cc836a5.png)
+# Capabilities
 - Dependency checking
 - Nmap (UDP and TCP scans)
 - Directory bruteforcing with `feroxbuster` and `dirsearch`
