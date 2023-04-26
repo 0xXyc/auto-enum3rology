@@ -1,6 +1,8 @@
 # auto-enum3rology
 Enumeration automation script best suited for web-based engagements.
+
 Enumeration + Methodology = Enumerology
+
 Be sure to add your hostname to your /etc/hosts file prior to using. If I am attacking an HTB box, I simply put box_name.htb.
 # Usage
 `sudo ./enum3rology.sh <ip_address_here> <target_url_here> <target_hostname_here>`
