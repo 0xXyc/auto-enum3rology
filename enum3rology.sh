@@ -34,8 +34,7 @@ echo -e "${Blue}
 "
 
 echo -e "${Green}                       Created by: https://github.com/jswinss\n"
-echo -e "${Blue}Current Version: 0.4\n"
-sleep 1
+echo -e "${Blue}                                Current Version: 0.5\n"
 
 # Placing logic here for command line arg for obtaining IP address to be enumerated through the duration of the script
 echo -e "${Red}Disclaimer: Enum3rology is not to be used as a full proof enumeration tool. You should still rely on your manual methodology!\n${Color_Off}"
@@ -120,7 +119,7 @@ cd Enum3rology_Output
 # Performs a series nmap scans to the target IP address and a DNS zone transfer attack if port 53 (DNS) is detected from the nmap output
 echo -e "${Blue}Beginning Nmap scans..."
 echo -e "Now performing a TCP scan of all 65,535 ports on the target (-p- -sV, -sC, -vv, -T4):${Color_Off}"
-nmap -p- -sV -sC -vv -T4 $ip_address -oN TCP-Scan
+nmap -p- -sV -sC -vv -T4 -Pn $ip_address -oN TCP-Scan
 #nmap_output=$(nmap -p- -sV -sC -vv -T4 $ip_address -oN TCP-Scan)
 if cat 'TCP-Scan' | grep -q "53/tcp open"; then
     echo -e "\n${Blue}Port 53 is open, performing zone transfer attack...${Color_Off}"
@@ -149,8 +148,10 @@ echo -e "${Blue}\nBeginning recursive directory bruteforce with Feroxbuster...${
 feroxbuster -u $target_url -e -g -o feroxbuster-report.txt
 
 # Performs subdomain enumeration of the target_url -- This one requires more testing due to lots of output and a need to re-run with a filter... perhaps put a note at the end of the script saying to do this?
-echo -e "\n${Blue}Beginning subdomain enumeration:${Color_Off}"
+echo -e "\n${Blue}Beginning subdomain enumeration in DNS mode...${Color_Off}"
 gobuster dns -d $hostname -w /usr/share/wordlists/dirb/common.txt
+echo -e "${Blue}Beginning subdomain enumeration in VHOST mode...${Color_Off}"
+gobuster vhost -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u $hostname -t 50 --append-domain
 
 # Performs web server fingerprinting with whatweb
 echo -e "\n${Blue}Fingerprinting web server with whatweb...${Color_Off}"
@@ -174,9 +175,11 @@ fi
 echo -e "${Green}Things that I can't do that you should:"
 echo -e "View the source code of the web site of HTML and blank PHP pages for secrets"
 echo -e "Visually inspect the web server and manipulate the web app to see if you can get unexpected behavior ;)${Color_Off}"
-echo -e "${Blue}Additional commands that should be ran manually:${Color_Off}"
-echo -e "ffuf -u $target_url -H "Host: FUZZ.$hostname" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt"
+echo -e "${Blue}\nAdditional commands that should be ran manually:${Color_Off}"
+echo -e "ffuf -u $target_url -H 'Host: FUZZ.$hostname' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt"
 echo -e "Be sure to check if port 53 (DNS) was open and if a zone transfer attack was successful. If it was, add the new hostname to /etc/hosts!"
+echo -e "Be sure to run a wpscan if Wordpress is detected. e.g. wpscan --url $target_url --api-token=api-token-here -e"
+echo -e "${Red}DO YOUR OSINT: Search EVERY VERSION NUMBER THAT YOU FIND ON GOOGLE AND SEARCHSPLOIT!${Color_Off}"
 
 # To-Do List:
 # WPScan option
