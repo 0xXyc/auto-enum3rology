@@ -112,13 +112,23 @@ function nmap_scan() {
 function ffuf_directory() {
 	echo -e "\n${Blue}Beginning directory bruteforce scan on $target_name:${Color_Off}"
 
-	ffuf -c -t 50 -p 0.1 -rate 100 \
-		-H "User-Agent: $AGENT" -ac \
-		-o $target_name.csv -of csv \
-		-mc 200,302,403 \
-		-w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt \
-		-u http://$DOMAIN/FUZZ
+	if [ -v $DOMAIN ]; then
 
+		ffuf -c -t 10 -p 0.2 -rate 100 \
+			-H "User-Agent: $AGENT" -ac \
+			-o $target_name.csv -of csv \
+			-mc 200,302,403 \
+			-w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt \
+			-u http://$ip_address/FUZZ
+
+	else
+		ffuf -c -t 10 -p 0.2 -rate 100 \
+			-H "User-Agent: $AGENT" -ac \
+			-o $target_name.csv -of csv \
+			-mc 200,302,403 \
+			-w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt \
+			-u http://$DOMAIN/FUZZ
+	fi
 }
 
 # Performs subdomain enumeration of the target_url using ffuf
@@ -128,13 +138,19 @@ function ffuf_directory() {
 function ffuf_subdomain() {
 	echo -e "\n${Blue}Beginning subdomain enumeration:${Color_Off}"
 
-	ffuf -c -t 40 -p 0.1 -rate 100 \
-		-o $DOMAIN.csv -of csv \
-		-H "User-Agent: $AGENT" -ac \
-		-H "Host: FUZZ.$DOMAIN" \
-		-w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt \
-		-u http://$DOMAIN/ \
-		-mc 200,403
+	if [ -v $DOMAIN ]; then
+		echo -e "\n${Blue}No Subdomains found on $target_name:${Color_Off}"
+
+	else
+
+		ffuf -c -t 40 -p 0.2 -rate 100 \
+			-o $DOMAIN.csv -of csv \
+			-H "User-Agent: $AGENT" -ac \
+			-H "Host: FUZZ.$DOMAIN" \
+			-w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt \
+			-u http://$DOMAIN/ \
+			-mc 200,403
+	fi
 }
 
 # Performs web server fingerprinting with whatweb
@@ -179,7 +195,4 @@ ffuf_directory
 ffuf_subdomain
 
 # -------------------------------------------------------------------------------------------------------------------------------
-# Useful Tips Section:
-echo -e "\n${Green}Things that I can't do that you should:"
-echo -e "View the source code of the web site of HTML and blank PHP pages for secrets"
-echo -e "Visually inspect the web server and manipulate the web app to see if you can get unexpected behavior ;)${Color_Off}"
+echo -e "\n${Blue}Remember to enumerate and review all output!${Color_Off}"
